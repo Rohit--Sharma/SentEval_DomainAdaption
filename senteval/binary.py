@@ -63,9 +63,25 @@ class BinaryClassifierEval(object):
 class AmazonEval(BinaryClassifierEval):
     def __init__(self, task_path, seed=1111):
         logging.debug('***** Transfer task : Amazon *****\n\n')
-        data = self.loadFile(os.path.join(task_path, 'amazon-all'))
-        num_pos = int(len(data) / 2)
-        super(self.__class__, self).__init__(data[:num_pos], data[num_pos:], seed)
+        pos = self.loadFile(os.path.join(task_path, 'amazon.pos'))
+        neg = self.loadFile(os.path.join(task_path, 'amazon.neg'))
+        super(self.__class__, self).__init__(pos, neg, seed)
+
+
+class YelpEval(BinaryClassifierEval):
+    def __init__(self, task_path, seed=1111):
+        logging.debug('***** Transfer task : Yelp *****\n\n')
+        pos = self.loadFile(os.path.join(task_path, 'yelp.pos'))
+        neg = self.loadFile(os.path.join(task_path, 'yelp.neg'))
+        super(self.__class__, self).__init__(pos, neg, seed)
+
+
+class IMDBEval(BinaryClassifierEval):
+    def __init__(self, task_path, seed=1111):
+        logging.debug('***** Transfer task : IMDB *****\n\n')
+        pos = self.loadFile(os.path.join(task_path, 'imdb.pos'))
+        neg = self.loadFile(os.path.join(task_path, 'imdb.neg'))
+        super(self.__class__, self).__init__(pos, neg, seed)
 
 
 class CREval(BinaryClassifierEval):

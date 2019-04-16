@@ -13,7 +13,7 @@ Generic sentence evaluation scripts wrapper
 from __future__ import absolute_import, division, unicode_literals
 
 from senteval import utils
-from senteval.binary import CREval, MREval, MPQAEval, SUBJEval, AmazonEval
+from senteval.binary import CREval, MREval, MPQAEval, SUBJEval, AmazonEval, YelpEval, IMDBEval
 from senteval.snli import SNLIEval
 from senteval.trec import TRECEval
 from senteval.sick import SICKRelatednessEval, SICKEntailmentEval
@@ -51,7 +51,7 @@ class SE(object):
                            'STS14', 'STS15', 'STS16',
                            'Length', 'WordContent', 'Depth', 'TopConstituents',
                            'BigramShift', 'Tense', 'SubjNumber', 'ObjNumber',
-                           'OddManOut', 'CoordinationInversion', 'Amazon']
+                           'OddManOut', 'CoordinationInversion', 'Amazon', 'Yelp', 'IMDB']
 
     def eval(self, name):
         # evaluate on evaluation [name], either takes string or list of strings
@@ -94,6 +94,10 @@ class SE(object):
             self.evaluation = ImageCaptionRetrievalEval(tpath + '/downstream/COCO', seed=self.params.seed)
         elif name == 'Amazon':
             self.evaluation = AmazonEval(tpath + '/downstream/Amazon', seed=self.params.seed)
+        elif name == 'Yelp':
+            self.evaluation = YelpEval(tpath + '/downstream/Yelp', seed=self.params.seed)
+        elif name == 'IMDB':
+            self.evaluation = IMDBEval(tpath + '/downstream/IMDB', seed=self.params.seed)
 
         # Probing Tasks
         elif name == 'Length':

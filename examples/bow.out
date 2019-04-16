@@ -1,1 +1,1 @@
-{'devacc': 98.92, 'acc': 97.8, 'ndev': 1000, 'ntest': 1000}
+{'Amazon': {'devacc': 84.62, 'acc': 80.3, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 84.35, 'acc': 81.9, 'ndev': 1000, 'ntest': 1000}, 'IMDB': {'devacc': 83.61, 'acc': 83.03, 'ndev': 1002, 'ntest': 1002}}
