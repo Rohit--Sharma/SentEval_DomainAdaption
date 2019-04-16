@@ -7,7 +7,7 @@
 
 #SBATCH --time=0-12:00:00
 
-#SBATCH --gres=gpu:titanrtx:1
+#SBATCH --gres=gpu:p100:1
 
 
 module load python/3.7.0
