@@ -22,7 +22,7 @@ from models import InferSent
 # Set PATHs
 PATH_SENTEVAL = '../'
 PATH_TO_DATA = '../data'
-PATH_TO_W2V = 'PATH/TO/glove.840B.300d.txt'  # or crawl-300d-2M.vec for V2
+PATH_TO_W2V = 'fasttext/crawl-300d-2M.vec'  # or crawl-300d-2M.vec for V2
 MODEL_PATH = 'infersent1.pkl'
 V = 1 # version of InferSent
 

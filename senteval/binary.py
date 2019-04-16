@@ -60,6 +60,14 @@ class BinaryClassifierEval(object):
                 'ntest': self.n_samples}
 
 
+class AmazonEval(BinaryClassifierEval):
+    def __init__(self, task_path, seed=1111):
+        logging.debug('***** Transfer task : Amazon *****\n\n')
+        data = self.loadFile(os.path.join(task_path, 'amazon-all'))
+        num_pos = int(len(data) / 2)
+        super(self.__class__, self).__init__(data[:num_pos], data[num_pos:], seed)
+
+
 class CREval(BinaryClassifierEval):
     def __init__(self, task_path, seed=1111):
         logging.debug('***** Transfer task : CR *****\n\n')
