@@ -31,8 +31,8 @@ class BinaryClassifierEval(object):
         # Those output will be further used by "batcher".
 
     def loadFile(self, fpath):
-        with io.open(fpath, 'r', encoding='latin-1') as f:
-            return [line.split() for line in f.read().splitlines()]
+        with io.open(fpath, 'r', encoding='utf-8') as f:
+            return [line.split() for line in f.read().strip().split('\n')]
 
     def run(self, params, batcher):
         enc_input = []

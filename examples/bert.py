@@ -9,6 +9,7 @@ from __future__ import absolute_import, division, unicode_literals
 
 import sys
 import io
+import re
 import numpy as np
 import pandas as pd
 import logging
@@ -29,7 +30,7 @@ import senteval
 def prepare(params, samples):
     emb_file_path = params.task_path + '/downstream/' + params.current_task + '/' + params.current_task.lower() + '.tsv'
     emb_df = pd.read_csv(emb_file_path, delimiter='\t')
-    emb_df['Review'] = emb_df['Review'].apply(lambda rev: ' '.join(rev.split()))
+    emb_df['Review'] = emb_df['Review'].apply(lambda rev: re.sub(' +', ' ', rev).strip())
     params.embeddings = emb_df
     logging.info('Loaded Embeddings file')
     return
@@ -65,6 +66,6 @@ if __name__ == "__main__":
     #                   'Length', 'WordContent', 'Depth', 'TopConstituents',
     #                   'BigramShift', 'Tense', 'SubjNumber', 'ObjNumber',
     #                   'OddManOut', 'CoordinationInversion']
-    transfer_tasks = ['Amazon', 'Yelp', 'IMDB']
+    transfer_tasks = ['Amazon', 'Yelp']
     results = se.eval(transfer_tasks)
     print(results)
