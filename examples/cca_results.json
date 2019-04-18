@@ -1,0 +1,3 @@
+Training CCA, regularization = 0.0100, 384 components
+Training CCA, regularization = 0.0100, 384 components
+{'Amazon': {'devacc': 83.57, 'acc': 80.2, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 84.2, 'acc': 84.3, 'ndev': 1000, 'ntest': 1000}}

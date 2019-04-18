@@ -1,0 +1,1 @@
+{'Amazon': {'devacc': 91.92, 'acc': 90.4, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 93.3, 'acc': 92.2, 'ndev': 1000, 'ntest': 1000}}
