@@ -1,1 +1,12 @@
-{'Amazon': {'devacc': 91.83, 'acc': 90.8, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.63, 'acc': 89.6, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 91.58, 'acc': 91.4, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.58, 'acc': 90.1, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 91.8, 'acc': 89.6, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.85, 'acc': 88.9, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 91.57, 'acc': 89.4, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.5, 'acc': 90.8, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 91.6, 'acc': 90.0, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.78, 'acc': 89.6, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 91.98, 'acc': 89.7, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.75, 'acc': 90.7, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 92.03, 'acc': 91.3, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.67, 'acc': 90.3, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 92.15, 'acc': 90.9, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.9, 'acc': 89.9, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 91.75, 'acc': 90.7, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.58, 'acc': 90.3, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 91.93, 'acc': 90.1, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.77, 'acc': 89.4, 'ndev': 1000, 'ntest': 1000}}
+{'Amazon': {'devacc': 91.8, 'acc': 91.2, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 91.55, 'acc': 88.0, 'ndev': 1000, 'ntest': 1000}}
+Amazon 90.43 += 0.7184010022264734
+Yelp 89.79999999999998 += 0.8160882305241254

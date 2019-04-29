@@ -19,7 +19,7 @@ from senteval.trec import TRECEval
 from senteval.sick import SICKRelatednessEval, SICKEntailmentEval
 from senteval.mrpc import MRPCEval
 from senteval.sts import STS12Eval, STS13Eval, STS14Eval, STS15Eval, STS16Eval, STSBenchmarkEval
-from senteval.sst import SSTEval
+from senteval.sst import SSTEval, CoLAEval
 from senteval.rank import ImageCaptionRetrievalEval
 from senteval.probing import *
 
@@ -51,7 +51,8 @@ class SE(object):
                            'STS14', 'STS15', 'STS16',
                            'Length', 'WordContent', 'Depth', 'TopConstituents',
                            'BigramShift', 'Tense', 'SubjNumber', 'ObjNumber',
-                           'OddManOut', 'CoordinationInversion', 'Amazon', 'Yelp', 'IMDB']
+                           'OddManOut', 'CoordinationInversion', 
+                           'Amazon', 'Yelp', 'IMDB', 'CoLA']
 
     def eval(self, name):
         # evaluate on evaluation [name], either takes string or list of strings
@@ -98,6 +99,8 @@ class SE(object):
             self.evaluation = YelpEval(tpath + '/downstream/Yelp', seed=self.params.seed)
         elif name == 'IMDB':
             self.evaluation = IMDBEval(tpath + '/downstream/IMDB', seed=self.params.seed)
+        elif name == 'CoLA':
+            self.evaluation = CoLAEval(tpath + '/downstream/CoLA', seed=self.params.seed)
 
         # Probing Tasks
         elif name == 'Length':
