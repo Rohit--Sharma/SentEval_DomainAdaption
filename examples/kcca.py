@@ -40,7 +40,7 @@ def prepare(params, samples):
     emb_df['Review'] = emb_df['Review'].apply(lambda rev: re.sub(' +', ' ', rev).strip())
     emb_df['Review'] = emb_df['Review'].apply(lambda rev: ' '.join(rev.split()))
     emb_df['BERT'] = emb_df['BERT'].transform(np.fromstring, sep=' ')
-    emb_df['CNN'] = emb_df['CNN_no_glove'].transform(np.fromstring, sep=' ')
+    emb_df['CNN'] = emb_df[params.cnn_emb_type].transform(np.fromstring, sep=' ')
 
     bert_dim = 768
     cnn_dim = 384
@@ -80,20 +80,16 @@ params_senteval['classifier'] = {'nhid': 0, 'optim': 'rmsprop', 'batch_size': 12
 logging.basicConfig(format='%(asctime)s : %(message)s', level=logging.DEBUG)
 
 if __name__ == "__main__":
-    n_expts = 3
-    transfer_tasks = sys.argv[1:]	# ['Amazon', 'Yelp', 'IMDB']
+    n_expts = int(sys.argv[1])
+    cnn_embeddings = sys.argv[2]
+    transfer_tasks = sys.argv[3:]
     acc = {}
+
+    params_senteval['cnn_emb_type'] = cnn_embeddings
+
     for expt in range(n_expts):
         params_senteval['seed'] = expt
-
         se = senteval.engine.SE(params_senteval, batcher, prepare)
-        # transfer_tasks = ['STS12', 'STS13', 'STS14', 'STS15', 'STS16',
-        #                   'MR', 'CR', 'MPQA', 'SUBJ', 'SST2', 'SST5', 'TREC', 'MRPC',
-        #                   'SICKEntailment', 'SICKRelatedness', 'STSBenchmark',
-        #                   'Length', 'WordContent', 'Depth', 'TopConstituents',
-        #                   'BigramShift', 'Tense', 'SubjNumber', 'ObjNumber',
-        #                   'OddManOut', 'CoordinationInversion']
-        # transfer_tasks = ['Amazon']
         results = se.eval(transfer_tasks)
         print(results)
         for task in transfer_tasks:

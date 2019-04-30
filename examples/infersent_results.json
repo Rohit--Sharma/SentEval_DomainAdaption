@@ -1,7 +1,0 @@
-Found 2148(/2290) words with w2v vectors
-Vocab size : 2148
-Found 2275(/2420) words with w2v vectors
-Vocab size : 2275
-Found 3236(/3577) words with w2v vectors
-Vocab size : 3236
-{'Amazon': {'devacc': 87.68, 'acc': 86.1, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 88.4, 'acc': 85.3, 'ndev': 1000, 'ntest': 1000}, 'IMDB': {'devacc': 86.52, 'acc': 86.33, 'ndev': 1002, 'ntest': 1002}}
