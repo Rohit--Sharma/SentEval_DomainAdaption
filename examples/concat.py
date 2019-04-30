@@ -29,8 +29,9 @@ import senteval
 # SentEval prepare and batcher
 def prepare(params, samples):
     emb_file_path = params.task_path + '/downstream/' + params.current_task + '/' + params.current_task.lower() + '.tsv'
-    emb_df = pd.read_csv(emb_file_path, delimiter='\t', encoding='utf-8', quotechar=u'\ua000')
+    emb_df = pd.read_csv(emb_file_path, delimiter='\t', encoding='utf-8', quotechar=u'\ua000', engine='python')
     emb_df['Review'] = emb_df['Review'].apply(lambda rev: re.sub(' +', ' ', rev).strip())
+    emb_df['Review'] = emb_df['Review'].apply(lambda rev: ' '.join(rev.split()))
     params.embeddings = emb_df
     logging.info('Loaded Embeddings file')
     return
@@ -45,6 +46,7 @@ def batcher(params, batch):
         bert_emb = emb_df[emb_df['Review'] == sent]['BERT'].tolist()
         cnn_emb = emb_df[emb_df['Review'] == sent]['CNN_no_glove'].tolist()
         assert len(bert_emb) != 0, 'BERT embeddings for "' + sent + '" not found! ' + str(len(bert_emb))
+        assert len(cnn_emb) != 0, 'CNN embeddings for "' + sent + '" not found! ' + str(len(cnn_emb))
         bert_emb = np.fromstring(bert_emb[0], sep=' ')
         cnn_emb = np.fromstring(cnn_emb[0], sep=' ')
         concat_emb = np.concatenate((bert_emb, cnn_emb))
@@ -63,8 +65,9 @@ params_senteval['classifier'] = {'nhid': 0, 'optim': 'rmsprop', 'batch_size': 12
 logging.basicConfig(format='%(asctime)s : %(message)s', level=logging.DEBUG)
 
 if __name__ == "__main__":
-    n_expts = 10
-    transfer_tasks = ['Amazon', 'Yelp', 'IMDB']
+    n_expts = 3
+    transfer_tasks = sys.argv[1:]	# ['Amazon', 'Yelp', 'IMDB']
+    acc = {}
     for expt in range(n_expts):
         params_senteval['seed'] = expt
 

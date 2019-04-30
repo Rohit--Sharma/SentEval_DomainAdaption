@@ -10,6 +10,8 @@ __pycache__/
 # log files
 *.log
 *.txt
+job_output_*
+examples/results/*
 
 # data files
 data/*

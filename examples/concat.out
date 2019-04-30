@@ -1,1 +1,0 @@
-{'Amazon': {'devacc': 96.78, 'acc': 95.5, 'ndev': 1000, 'ntest': 1000}, 'Yelp': {'devacc': 96.72, 'acc': 95.9, 'ndev': 1000, 'ntest': 1000}, 'SST2': {'devacc': 82.0, 'acc': 82.65, 'ndev': 872, 'ntest': 1821}}
