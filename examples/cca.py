@@ -36,7 +36,7 @@ def cca_transform(embed1, embed2, ndim, n_iter):
 # SentEval prepare and batcher
 def prepare(params, samples):
     emb_file_path = params.task_path + '/downstream/' + params.current_task + '/' + params.current_task.lower() + '.tsv'
-    emb_df = pd.read_csv(emb_file_path, delimiter='\t')
+    emb_df = pd.read_csv(emb_file_path, delimiter='\t', encoding='utf-8', quotechar=u'\ua000')
     emb_df['Review'] = emb_df['Review'].apply(lambda rev: re.sub(' +', ' ', rev).strip())
     emb_df['BERT'] = emb_df['BERT'].transform(np.fromstring, sep=' ')
     emb_df['CNN'] = emb_df['CNN_no_glove'].transform(np.fromstring, sep=' ')
@@ -76,13 +76,25 @@ params_senteval['classifier'] = {'nhid': 0, 'optim': 'rmsprop', 'batch_size': 12
 logging.basicConfig(format='%(asctime)s : %(message)s', level=logging.DEBUG)
 
 if __name__ == "__main__":
-    se = senteval.engine.SE(params_senteval, batcher, prepare)
-    # transfer_tasks = ['STS12', 'STS13', 'STS14', 'STS15', 'STS16',
-    #                   'MR', 'CR', 'MPQA', 'SUBJ', 'SST2', 'SST5', 'TREC', 'MRPC',
-    #                   'SICKEntailment', 'SICKRelatedness', 'STSBenchmark',
-    #                   'Length', 'WordContent', 'Depth', 'TopConstituents',
-    #                   'BigramShift', 'Tense', 'SubjNumber', 'ObjNumber',
-    #                   'OddManOut', 'CoordinationInversion']
-    transfer_tasks = ['Amazon', 'Yelp', 'SST2']
-    results = se.eval(transfer_tasks)
-    print(results)
+    n_expts = 10
+    transfer_tasks = ['Amazon', 'Yelp', 'IMDB']
+    for expt in range(n_expts):
+        params_senteval['seed'] = expt
+
+        se = senteval.engine.SE(params_senteval, batcher, prepare)
+        # transfer_tasks = ['STS12', 'STS13', 'STS14', 'STS15', 'STS16',
+        #                   'MR', 'CR', 'MPQA', 'SUBJ', 'SST2', 'SST5', 'TREC', 'MRPC',
+        #                   'SICKEntailment', 'SICKRelatedness', 'STSBenchmark',
+        #                   'Length', 'WordContent', 'Depth', 'TopConstituents',
+        #                   'BigramShift', 'Tense', 'SubjNumber', 'ObjNumber',
+        #                   'OddManOut', 'CoordinationInversion']
+        # transfer_tasks = ['Amazon']
+        results = se.eval(transfer_tasks)
+        print(results)
+        for task in transfer_tasks:
+            if task not in acc:
+                acc[task] = []
+            acc[task].append(results[task]['acc'])
+    
+    for task in transfer_tasks:
+        print(task, np.mean(acc[task]), '+=', np.std(acc[task]))

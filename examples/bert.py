@@ -29,8 +29,9 @@ import senteval
 # SentEval prepare and batcher
 def prepare(params, samples):
     emb_file_path = params.task_path + '/downstream/' + params.current_task + '/' + params.current_task.lower() + '.tsv'
-    emb_df = pd.read_csv(emb_file_path, delimiter='\t')
+    emb_df = pd.read_csv(emb_file_path, delimiter='\t', encoding='utf-8', quotechar=u'\ua000')
     emb_df['Review'] = emb_df['Review'].apply(lambda rev: re.sub(' +', ' ', rev).strip())
+    emb_df['Review'] = emb_df['Review'].apply(lambda rev: ' '.join(rev.split()))
     params.embeddings = emb_df
     logging.info('Loaded Embeddings file')
     return
@@ -60,8 +61,7 @@ logging.basicConfig(format='%(asctime)s : %(message)s', level=logging.DEBUG)
 
 if __name__ == "__main__":
     n_expts = 10
-    acc = {'Amazon': [], 'Yelp': []}
-    transfer_tasks = ['Amazon', 'Yelp']
+    transfer_tasks = ['Amazon', 'Yelp', 'IMDB']
     for expt in range(n_expts):
         params_senteval['seed'] = expt
 
@@ -76,6 +76,8 @@ if __name__ == "__main__":
         results = se.eval(transfer_tasks)
         print(results)
         for task in transfer_tasks:
+            if task not in acc:
+                acc[task] = []
             acc[task].append(results[task]['acc'])
     
     for task in transfer_tasks:
