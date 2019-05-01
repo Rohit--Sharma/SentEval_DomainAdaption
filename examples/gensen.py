@@ -14,8 +14,10 @@ from __future__ import absolute_import, division, unicode_literals
 
 import sys
 import logging
+import numpy as np
+import pandas as pd
 # import GenSen package
-from gensen import GenSen, GenSenSingle
+from gensen_model import GenSen, GenSenSingle
 
 # Set PATHs
 PATH_TO_SENTEVAL = '../'
@@ -31,27 +33,24 @@ def prepare(params, samples):
 
 def batcher(params, batch):
     batch = [' '.join(sent) if sent != [] else '.' for sent in batch]
-    _, reps_h_t = gensen.get_representation(
-        sentences, pool='last', return_numpy=True, tokenize=True
+    _, reps_h_t = params.gensen.get_representation(
+        batch, pool='last', return_numpy=True, tokenize=True
     )
     embeddings = reps_h_t
     return embeddings
 
 # Load GenSen model
 gensen_1 = GenSenSingle(
-    model_folder='../data/models',
+    model_folder='../../gensen/data/models',
     filename_prefix='nli_large_bothskip',
-    pretrained_emb='../data/embedding/glove.840B.300d.h5'
+    pretrained_emb='../../gensen/data/embedding/glove.840B.300d.h5'
 )
 gensen_2 = GenSenSingle(
-    model_folder='../data/models',
+    model_folder='../../gensen/data/models',
     filename_prefix='nli_large_bothskip_parse',
-    pretrained_emb='../data/embedding/glove.840B.300d.h5'
+    pretrained_emb='../../gensen/data/embedding/glove.840B.300d.h5'
 )
 gensen_encoder = GenSen(gensen_1, gensen_2)
-reps_h, reps_h_t = gensen.get_representation(
-    sentences, pool='last', return_numpy=True, tokenize=True
-)
 
 # Set params for SentEval
 params_senteval = {'task_path': PATH_TO_DATA, 'usepytorch': True, 'kfold': 5}
@@ -63,21 +62,21 @@ params_senteval['gensen'] = gensen_encoder
 logging.basicConfig(format='%(asctime)s : %(message)s', level=logging.DEBUG)
 
 if __name__ == "__main__":
-    n_expts = 10
-    acc = {'Amazon': [], 'Yelp': []}
-    transfer_tasks = ['Amazon', 'Yelp']
+    n_expts = int(sys.argv[1])
+    cnn_embeddings = sys.argv[2]
+    transfer_tasks = sys.argv[3:]
+    acc = {}
+
+    params_senteval['cnn_emb_type'] = cnn_embeddings
+
     for expt in range(n_expts):
         params_senteval['seed'] = expt
         se = senteval.engine.SE(params_senteval, batcher, prepare)
-        # transfer_tasks = ['STS12', 'STS13', 'STS14', 'STS15', 'STS16',
-        #                   'MR', 'CR', 'MPQA', 'SUBJ', 'SST2', 'SST5', 'TREC', 'MRPC',
-        #                   'SICKEntailment', 'SICKRelatedness', 'STSBenchmark',
-        #                   'Length', 'WordContent', 'Depth', 'TopConstituents',
-        #                   'BigramShift', 'Tense', 'SubjNumber', 'ObjNumber',
-        #                   'OddManOut', 'CoordinationInversion']
         results = se.eval(transfer_tasks)
         print(results)
         for task in transfer_tasks:
+            if task not in acc:
+                acc[task] = []
             acc[task].append(results[task]['acc'])
     
     for task in transfer_tasks:
