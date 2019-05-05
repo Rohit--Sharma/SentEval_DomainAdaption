@@ -6,14 +6,14 @@
 #SBATCH --gres=gpu:1
 
 
-module load python/3.7.0
+module load python/3.7.3
 
 nvidia-smi
 
 N_EXPTS=10
-#CNN_EMBED="CNN_no_glove"
+CNN_EMBED="CNN_no_glove"
 #CNN_EMBED="CNN_glove_non_trainable"
-CNN_EMBED="CNN_glove_trainable"
+#CNN_EMBED="CNN_glove_trainable"
 TASKS="Amazon Yelp IMDB"
 
-python gensen.py $N_EXPTS $CNN_EMBED $TASKS > results/gensen_$CNN_EMBED.out
+python3 gensen_cnn.py $N_EXPTS $CNN_EMBED $TASKS > results/gensen_concat_$CNN_EMBED.out

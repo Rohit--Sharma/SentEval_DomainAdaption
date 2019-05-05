@@ -145,8 +145,8 @@ class GenSenSingle(nn.Module):
         model_vocab = pickle.load(
             open(os.path.join(
                 self.model_folder,
-                '%s_vocab.pkl' % (self.filename_prefix)
-            ))
+                '{}_vocab.pkl'.format(self.filename_prefix)
+            ), 'rb'), encoding='utf-8'
         )
 
         # Word to index mappings
